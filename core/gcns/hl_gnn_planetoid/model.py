@@ -70,12 +70,11 @@ class HLGNN(torch.nn.Module):
         if isinstance(adj_t, SparseTensor):
             adj_t = adj_t.to_torch_sparse_coo_tensor()
         
-        if edge_weight is not None:
-            values = adj_t._values() * edge_weight
-            adj_t = torch.sparse_coo_tensor(adj_t._indices(), values, adj_t.size()).coalesce()
-            return torch.sparse.mm(adj_t, x)
-        else:
-            return torch.sparse.mm(adj_t, x)
+        # if edge_weight is not None:
+        #     values = adj_t._values() * edge_weight
+        #     adj_t = torch.sparse_coo_tensor(adj_t._indices(), values, adj_t.size()).coalesce()
+            
+        return torch.sparse.mm(adj_t, x)
 
 class GCNLayer(torch.nn.Module):
     def __init__(self, in_channels, out_channels):
